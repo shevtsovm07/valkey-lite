@@ -11,13 +11,13 @@ int main() {
   address.sin_port = htons(6379);
 
   if (bind(server_id, reinterpret_cast<sockaddr*>(&address), sizeof(address)) < 0) {
-    std::cerr << "Error: failed port 6379 creation" << "\n";
+    std::cerr << "Error: bind failed" << "\n";
     close(server_id);
     return 1;
   }
 
   if (listen(server_id, 5) < 0) {
-    std::cerr << "Error: failed turning listening on" << "\n";
+    std::cerr << "Error: listen failed" << "\n";
     close(server_id);
     return 1;
   }
@@ -25,11 +25,24 @@ int main() {
   socklen_t addrlen = sizeof(address);
   int client_id = accept(server_id, reinterpret_cast<sockaddr*>(&address), &addrlen);
   if (client_id < 0) {
-    std::cerr << "Error: failed accepting linkage" << "\n";
+    std::cerr << "Error: accept failed" << "\n";
     close(server_id);
     return 1;
   }
-  std::cout << "ОТЛАДКА: КЛИЕНТ ПОДКЛЮЧЕН" << "\n";
+
+  std::string buffer(1024, '\0');
+
+  size_t bytes_received = recv(client_id, &buffer[0], buffer.size(), 0);
+  if (bytes_received < 0) {
+    std::cerr << "Error: failed reading data" << "\n";
+  } else if (bytes_received == 0) {
+    std::cout << "Client closed connection" << "\n";
+  } else {
+    buffer.resize(bytes_received); 
+    std::cout << "Client sent: " << buffer;
+
+    send(client_id, buffer.data(), buffer.size(), 0);
+  }
 
   close(client_id);
   close(server_id);
