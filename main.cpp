@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include "executor.hpp"
+#include "server.hpp"
 #include <vector>
 #include <string>
 #include <cctype>
@@ -24,23 +25,13 @@ int main(int argc, const char** argv) {
         maxmemory_limit = argv[kMaxMemoryToken];
     }
     Executor executor(maxmemory_limit);
-    std::string line;
+    Server server(6379);
 
-    while (std::getline(std::cin, line)) {
-        if (line == "EXIT" || line == "exit") break;
-
-        std::istringstream iss(line);
-        std::string token;
-        std::vector<std::string> tokens;
-
-        while (iss >> token) {
-            tokens.push_back(token);
-        }
-        if (tokens.empty()) continue;
-
-        for (char& c : tokens[0]) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-
-        std::string result = executor.Execute(tokens);
-        if (!result.empty()) std::cout << result << "\n";
+    if (!server.Start()) {
+        return 1;
     }
+
+    server.Run(executor);
+
+    return 0;
 }
