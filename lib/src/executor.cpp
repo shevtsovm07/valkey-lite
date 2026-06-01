@@ -140,14 +140,12 @@ std::string Executor::Execute(const std::vector<std::string>& tokens) {
 
   auto iterator = commands_.find(cmd);
   if (iterator == commands_.end()) {
-    std::cerr << "(error) unknown command " << tokens[0] << "\n";
-    return "";
+    return "(error) unknown command " + tokens[0] + "\n";
   }
 
   size_t arguments_count = tokens.size() - 1;
   if (arguments_count < iterator->second.min_args || arguments_count > iterator->second.max_args) {
-    std::cerr << "(error) wrong number of arguments for '" << tokens[0] << "'\n";
-    return "";
+    return "(error) wrong number of arguments for '" + tokens[0] + "'\n";
   }
 
   try {

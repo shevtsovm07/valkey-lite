@@ -234,11 +234,6 @@ TEST_F(SetExecutorTest, executor_set_move) {
 }
 
 TEST_F(SetExecutorTest, executor_wrong_number_of_args_returns_empty) {
-  testing::internal::CaptureStderr();
-  EXPECT_EQ(ex_.Execute({"SADD"}), "");
-  EXPECT_EQ(testing::internal::GetCapturedStderr(), "(error) wrong number of arguments for 'SADD'\n");
-
-  testing::internal::CaptureStderr();
-  EXPECT_EQ(ex_.Execute({"SISMEMBER", "s"}), "");
-  EXPECT_EQ(testing::internal::GetCapturedStderr(), "(error) wrong number of arguments for 'SISMEMBER'\n");
+  EXPECT_EQ(ex_.Execute({"SADD"}), "(error) wrong number of arguments for 'SADD'\n");
+  EXPECT_EQ(ex_.Execute({"SISMEMBER", "s"}), "(error) wrong number of arguments for 'SISMEMBER'\n");
 }

@@ -144,5 +144,5 @@ TEST_F(StringExecutorTest, executor_expire_and_ttl) {
 }
 
 TEST_F(StringExecutorTest, executer_wrong_amount_of_arguments) {
-  EXPECT_EQ(ex_.Execute({"SET"}), "");
+  EXPECT_EQ(ex_.Execute({"SET"}), "(error) wrong number of arguments for 'SET'\n");
 }

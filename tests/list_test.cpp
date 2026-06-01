@@ -216,11 +216,6 @@ TEST_F(ListExecutorTest, executor_lpop_and_rpop) {
 }
 
 TEST_F(ListExecutorTest, executor_wrong_number_of_args_returns_empty) {
-  testing::internal::CaptureStderr();
-  EXPECT_EQ(ex_.Execute({"RPUSH"}), "");
-  EXPECT_EQ(testing::internal::GetCapturedStderr(), "(error) wrong number of arguments for 'RPUSH'\n");
-
-  testing::internal::CaptureStderr();
-  EXPECT_EQ(ex_.Execute({"LRANGE", "l", "0"}), "");
-  EXPECT_EQ(testing::internal::GetCapturedStderr(), "(error) wrong number of arguments for 'LRANGE'\n");
+  EXPECT_EQ(ex_.Execute({"RPUSH"}), "(error) wrong number of arguments for 'RPUSH'\n");
+  EXPECT_EQ(ex_.Execute({"LRANGE", "l", "0"}), "(error) wrong number of arguments for 'LRANGE'\n");
 }

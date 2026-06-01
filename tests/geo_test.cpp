@@ -216,6 +216,6 @@ TEST_F(GeoCmdTest, executor_geosearch_asc) {
 }
 
 TEST_F(GeoCmdTest, executor_wrong_args_returns_empty) {
-  EXPECT_EQ(ex_.Execute({"GEOADD"}), "");
-  EXPECT_EQ(ex_.Execute({"GEODIST", "cities", "Moscow"}), "");
+  EXPECT_EQ(ex_.Execute({"GEOADD"}), "(error) wrong number of arguments for 'GEOADD'\n");
+  EXPECT_EQ(ex_.Execute({"GEODIST", "cities", "Moscow"}), "(error) wrong number of arguments for 'GEODIST'\n");
 }
