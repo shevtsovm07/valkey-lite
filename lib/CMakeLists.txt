@@ -6,7 +6,7 @@ add_library(valkey_lib
   src/geo_cmd.cpp
   src/common_cmd.cpp
   src/executor.cpp
-  src/server.hpp
+  src/server.cpp
 )
 
 target_include_directories(valkey_lib PUBLIC src)
